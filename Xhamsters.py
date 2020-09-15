@@ -1,12 +1,13 @@
 from tkinter import *
 from PIL import ImageTk
 from PIL import *
+from tkinter.ttk import Progressbar
 import tkinter.messagebox
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-import requests,re     
-import os
-import random
+import requests,re,os,time,random     
+
+
 
 class xhamster:
      def __init__(self,root):
@@ -55,8 +56,7 @@ class xhamster:
                else:
                     try:
                          
-                         statusbar.config(text="downloading") 
-                         statusbar.config(text="downloaded")        
+                         prg.start(10)
                          parent="C:\\Users\\SHREYAS\\Desktop\\shreyas python\\HamsterBoy"
                          num=random.randint(1,100)
                          dirs="Xhamster{}".format(num)
@@ -81,6 +81,7 @@ class xhamster:
                                      url = '{}{}'.format(site, url)                                
                                  response = requests.get(url)                                 
                                  f.write(response.content)
+                                 prg.stop()
                     except:
                           tkinter.messagebox.askretrycancel("Error","URL is not correct /Network error")
                     
@@ -118,9 +119,8 @@ class xhamster:
           Clear_but.bind("<Leave>",on_leave2)
 
 
-          statusbar=Label(MainFrame, text="Url is placed", bd=1, relief=SUNKEN)
-          statusbar.place(x=5,y=275,anchor=NW)
-
+          prg=Progressbar(MainFrame,length=490,orient=HORIZONTAL,mode='indeterminate')
+          prg.place(x=4,y=273)
 
 
 
