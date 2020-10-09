@@ -5,7 +5,12 @@ from tkinter.ttk import Progressbar
 import tkinter.messagebox
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-import requests,re,os,time,random     
+import requests
+import re
+import os
+import time
+import random
+import threading
 
 
 
@@ -52,11 +57,9 @@ class xhamster:
 
                if xurls.get()=="":
                     tkinter.messagebox.askretrycancel("Error","please paste url")
-
                else:
                     try:
                          
-                         prg.start(10)
                          parent="C:\\Users\\SHREYAS\\Desktop\\shreyas python\\HamsterBoy"
                          num=random.randint(1,100)
                          dirs="Xhamster{}".format(num)
@@ -78,12 +81,20 @@ class xhamster:
                                      # sometimes an image source can be relative 
                                      # if it is provide the base url which also happens 
                                      # to be the site variable atm.
-                                     url = '{}{}'.format(site, url)                                
+                                     url = '{}{}'.format(site, url)
+                                 prg.start(10)
                                  response = requests.get(url)                                 
                                  f.write(response.content)
                                  prg.stop()
                     except:
                           tkinter.messagebox.askretrycancel("Error","URL is not correct /Network error")
+
+
+            
+
+          def down():
+               t1=threading.Thread(target=download_xhamster)
+               t1.start()
                     
                
 
@@ -107,7 +118,7 @@ class xhamster:
 
 
 
-          Down_but=Button(MainFrame,text="Download Photos",width=15,font=('times new roman',12,'bold'),relief=RIDGE,bd=3,cursor="hand2",command=download_xhamster)
+          Down_but=Button(MainFrame,text="Download Photos",width=15,font=('times new roman',12,'bold'),relief=RIDGE,bd=3,cursor="hand2",command=down)
           Down_but.place(x=30,y=200)
           Down_but.bind("<Enter>",on_enter1)
           Down_but.bind("<Leave>",on_leave1)
